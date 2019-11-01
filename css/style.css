@@ -1,0 +1,46 @@
+body{
+    background-image: url("../images/63.jpg");
+    background-repeat: repeat;
+}
+.container{
+    background-color: rgba(255, 255, 255, .5);
+}
+button,div,form,input {
+    margin: 10px;
+}
+.eachGIF{
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.gifDiv{
+    border-radius: 25px;
+    border: black solid 2px;
+    background:#EFF0F0;
+    padding: 20px;
+    /* width: 200px; */
+    /* height: 250px; */
+}
+p{
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+}
+h1{
+    margin: 10px auto;
+    text-align: center;
+    font-family: 'Londrina Solid', cursive;
+}
+h3{
+    font-family: 'Londrina Solid', cursive;
+}
+.userInput{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.heading{
+    display: flex;
+    justify-content: flex-start;
+    flex-flow: row nowrap;
+}
