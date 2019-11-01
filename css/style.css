@@ -25,6 +25,8 @@ button,div,form,input {
 p{
     text-align: center;
     font-family: 'Open Sans', sans-serif;
+    margin-top: 5px;
+    margin-bottom: 0px;
 }
 h1{
     margin: 10px auto;
@@ -38,6 +40,7 @@ h3{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-flow: row wrap;
 }
 .heading{
     display: flex;
