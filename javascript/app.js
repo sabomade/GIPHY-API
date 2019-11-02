@@ -1,3 +1,6 @@
+
+// VARIABLES
+//=====================================
 //initial topic search
 var topics =["cookies", "BBQ", "hamburgers", "vegan", "vegetables", "snacks"];
 
@@ -12,6 +15,9 @@ var searchTerm;
 //favorite icons url
 var isFav = "images/heart-full.png";
 var notFav = "images/heart-empty.png";
+
+// FUNCTIONS
+//=====================================
 
 function displayGifInfo(searchTerm) {
     //url used to search api
@@ -82,8 +88,48 @@ function displayGifInfo(searchTerm) {
     
 }
 
+function renderButtons(){
+    $("#buttons-view").empty();
+
+    $.each(topics, function(i){
+        var button = $("<button>" + topics[i]+ "</button>");
+        button.addClass("gifButton btn btn-dark").attr("data-name", topics[i]);
+        button.appendTo("#buttons-view");
+    })
+}
+
+function getDrink(searchTerm){
+    //looks up random drink from the CocktailDB API
+    drinkqueryURL = "https://www.thecocktaildb.com/api/json/v1/1/random.php";
+    
+    $.ajax({
+        url: drinkqueryURL,
+        method: "GET"
+    }).then(function(drinkData){
+        //clear drink div
+        $("#drink").empty();
+
+        //array of drink - api only retuns 1 drink
+        var drink = drinkData.drinks[0];
+        //console.log("drink name: ", drink.strDrink);
+
+        //link to pic of drink
+        var drinkPicURL = drink.strDrinkThumb;
+        var drinkName = drink.strDrink;
+        
+        //create h3 tag, append drink to DOM, with link to pic
+        var drinkH3 = $("<h3>");
+        drinkH3.html("Try a <a href="+drinkPicURL+" target='_blank'>" +drinkName+"</a> with your "+ searchTerm);
+        $("#drink").append(drinkH3);
+
+    });
+}
+
  //when gif clicked, animate or stop animating
  $(document).on("click", ".gif", function(){
+    // Preventing the button from trying to submit the form
+    event.preventDefault();
+
     console.log("clicked: ", this);
     var state = $(this).attr("data-state");
 
@@ -102,6 +148,9 @@ function displayGifInfo(searchTerm) {
 
 //when laod more button clicked add 10 to offset and run search again, prepending new items to DOM
 $("#load-more").on("click", function(){
+    // Preventing the button from trying to submit the form
+    event.preventDefault();
+
     offset = offset+10;
     //console.log(offset);
     displayGifInfo(searchTerm);
@@ -110,6 +159,9 @@ $("#load-more").on("click", function(){
 
 //when heart icon clicked (.fav), move gifDiv under favorite gifs
 $(document).on("click", ".fav", function(){
+    // Preventing the button from trying to submit the form
+    event.preventDefault();
+
     var favState = $(this).attr("fav-state");
     console.log("is fav? ", favState);
 
@@ -128,19 +180,9 @@ $(document).on("click", ".fav", function(){
         console.log("fav clicked was true");
         parent.remove();
     }
-})
+});
 
-function renderButtons(){
-    $("#buttons-view").empty();
-
-    $.each(topics, function(i){
-        var button = $("<button>" + topics[i]+ "</button>");
-        button.addClass("gifButton btn btn-dark").attr("data-name", topics[i]);
-        button.appendTo("#buttons-view");
-    })
-}
-
-// This function handles events where one button is clicked
+// when button to add new gif is clicked, this function adds new topic to list & calls another function to write a new topic button to DOM
 $("#add-gif").on("click", function(event) {
     event.preventDefault();
 
@@ -155,11 +197,18 @@ $("#add-gif").on("click", function(event) {
 
     // Calling renderButtons which handles the processing of our topics array
     renderButtons();
+    
+    //clears input field
     $("#gif-input").val("");
 
   });
+
+
   // Generic function for displaying the gifInfo
   $(document).on("click", ".gifButton", function(){
+    // Preventing the button from trying to submit the form
+    event.preventDefault();
+
     //gets data-name value and assigns to variable gif
     searchTerm = $(this).attr("data-name");
     
@@ -171,6 +220,10 @@ $("#add-gif").on("click", function(event) {
 
     //call function displayGifInfo, passing it name button just clicked as search term
     displayGifInfo(searchTerm);
+
+    //call function getDrink, displays random drink to try with the food topic you clicked
+    getDrink(searchTerm);
+
     });
 
   // Calling the renderButtons function to display the intial buttons
