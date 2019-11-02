@@ -31,7 +31,7 @@ function displayGifInfo(searchTerm) {
         for (let i = 0; i < arrOfGifs.length; i++) {
             //create div to hold gifInfo
             var gifDiv = $("<div>");
-            gifDiv.addClass("gifDiv").attr("fav", false);
+            gifDiv.addClass("gifDiv");
 
             //create img tag, get gif still url, add to img as src, then append img to gifDiv
             var gifImg = $("<img>")
@@ -64,7 +64,7 @@ function displayGifInfo(searchTerm) {
              var favorite = $("<img>");
              
              //add attributes to favorite: src url, fav/nofav icon urls, fav-state, and class fav 
-             favorite.attr("src", notFav).addClass("fav").attr("noFavURL", notFav).attr("isFavURL", isFav).attr("fav-state", false);
+             favorite.attr("src", notFav).addClass("fav").attr("noFavURL", notFav).attr("isFavURL", isFav).attr("fav-state", "notFav");
              
              //append to gifDiv
              gifDiv.append(favorite);
@@ -113,22 +113,21 @@ $(document).on("click", ".fav", function(){
     var favState = $(this).attr("fav-state");
     console.log("is fav? ", favState);
 
+    var parent = $(this).closest('div');
+
     const fURL = $(this).attr("isFavURL");
     const nfURL = $(this).attr("noFavURL");
 
-    if(favState == false){
+    if(favState === "notFav"){
         console.log("fav clicked was false");
         $(this).attr("src", fURL);
-        console.log($(this).parents());
-        $(this).parent().appendTo("#fav-gif-view");
-        // $(this).attr("fav-state", true);
+        $("#fav-gif-view").append(parent);
+        $(this).attr("fav-state", "isFav");
     }
-    // else{
-    //     console.log("fav clicked was true");
-    //     $(this).attr("src", nfURL);
-    //     $(this).parent().appendTo("#gif-view");
-    //     // $(this).attr("fav-state", false);
-    // }
+    else{
+        console.log("fav clicked was true");
+        parent.remove();
+    }
 })
 
 function renderButtons(){
