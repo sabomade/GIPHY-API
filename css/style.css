@@ -45,5 +45,8 @@ h3{
 .heading{
     display: flex;
     justify-content: flex-start;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
+}
+.row{
+    flex-wrap: nowrap;
 }

@@ -7,6 +7,8 @@ var gifAPI = "DXknV0JH1D0o1ChD71hL8Y2ZdpvCaAuK";
 //search parameters for queryURL
 var limit = 10;
 var offset = 0;
+var searchTerm;
+
 
 function displayGifInfo(searchTerm) {
     //url used to search api
@@ -20,13 +22,13 @@ function displayGifInfo(searchTerm) {
         
         //variable to store all gifs returned
         var arrOfGifs = response.data;
-        console.log(arrOfGifs);
+        //console.log(arrOfGifs);
         
         //loops through array of gifs & prints them to DOM
         for (let i = 0; i < arrOfGifs.length; i++) {
             //create div to hold gifInfo
             var gifDiv = $("<div>");
-            gifDiv.attr("id", i).addClass("gifDiv");
+            gifDiv.addClass("gifDiv");
 
             //create img tag, get gif still url, add to img as src, then append img to gifDiv
             var gifImg = $("<img>")
@@ -54,38 +56,40 @@ function displayGifInfo(searchTerm) {
             $("#gif-view").append(gifDiv);
 
         }
-        //when gif clicked, animate or stop animating
-        $(document).on("click", ".gif", function(){
-           // console.log("clicked: ", this);
-            var state = $(this).attr("data-state");
-
-            const stillURL = $(this).attr("still-url");
-            const animateURL = $(this).attr("animated-url");
-
-            if(state === "still"){
-                $(this).attr("src", animateURL);
-                $(this).attr("data-state", "animate");
-
-            }else{
-                $(this).attr("src",stillURL);
-                $(this).attr("data-state", "still");
-            }
-        });
-
         //create load more button & clear & add to DOM
         $("#load-more").empty();
         var button = $("<button>");
         button.text("Load More Images").addClass("btn btn-dark");
         $("#load-more").append(button);
-
-        //when laod more button clicked add 10 to offset and run search again, prepending new items to DOM
-        $("#load-more").on("click", function(){
-            offset = offset+10;
-            displayGifInfo(searchTerm);
-        });
     });
     
 }
+
+ //when gif clicked, animate or stop animating
+ $(document).on("click", ".gif", function(){
+    console.log("clicked: ", this);
+    var state = $(this).attr("data-state");
+
+    var stillURL = $(this).attr("still-url");
+    var animateURL = $(this).attr("animated-url");
+
+    if(state === "still"){
+        $(this).attr("src", animateURL);
+        $(this).attr("data-state", "animate");
+
+    }else{
+        $(this).attr("src",stillURL);
+        $(this).attr("data-state", "still");
+    }
+});
+
+//when laod more button clicked add 10 to offset and run search again, prepending new items to DOM
+$("#load-more").on("click", function(){
+    offset = offset+10;
+    //console.log(offset);
+    displayGifInfo(searchTerm);
+    //console.log("======= next 10 img =======")
+});
 
 function renderButtons(){
     $("#buttons-view").empty();
@@ -118,7 +122,7 @@ $("#add-gif").on("click", function(event) {
   // Generic function for displaying the gifInfo
   $(document).on("click", ".gifButton", function(){
     //gets data-name value and assigns to variable gif
-    var searchTerm = $(this).attr("data-name");
+    searchTerm = $(this).attr("data-name");
     
     // empties gifs on screen when new topic button pressed
     $("#gif-view").empty();
