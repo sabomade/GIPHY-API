@@ -19,9 +19,22 @@ button,div,form,input {
     border: black solid 2px;
     background:#EFF0F0;
     padding: 20px;
-    /* width: 200px; */
-    /* height: 250px; */
+
+    display: flex;
+    flex-flow: column wrap-reverse;
+    justify-content: center;
+    align-content:center;
 }
+.fav{
+    align-self: flex-start;
+    width: 24px;
+    order:-1;
+    margin-bottom: 10px;
+}
+.fav:hover{
+    content: url(../images/heart-full.png);
+}
+
 p{
     text-align: center;
     font-family: 'Open Sans', sans-serif;
@@ -49,4 +62,8 @@ h3{
 }
 .row{
     flex-wrap: nowrap;
+}
+.title{
+    font-size: 15px;
+    text-transform: capitalize;
 }
