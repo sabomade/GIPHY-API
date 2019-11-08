@@ -27,11 +27,11 @@ function displayGifInfo(searchTerm) {
         url: queryURL,
         method: "GET"
     }).then(function(response){
-        //console.log(response);
+        console.log(response);
         
         //variable to store all gifs returned
         var arrOfGifs = response.data;
-        //console.log(arrOfGifs);
+        console.log(arrOfGifs);
         
         //loops through array of gifs & prints them to DOM
         for (let i = 0; i < arrOfGifs.length; i++) {
@@ -43,10 +43,10 @@ function displayGifInfo(searchTerm) {
             var gifImg = $("<img>")
             
             //still image url of current gif
-            const still = arrOfGifs[i].images.fixed_height_still.url;
+            const still = arrOfGifs[i].images.fixed_width_still.url;
 
             //animated image url of current gif
-            const animate = arrOfGifs[i].images.fixed_height.url;
+            const animate = arrOfGifs[i].images.fixed_width.url;
             
             //add still & animated urls as attr to gifImg
             gifImg.attr("still-url", still).attr("animated-url", animate);
